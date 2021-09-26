@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Dotnet.List.Pagination
+namespace Pagination.Dotnet.List
 {
 	public class Pagination<T>
 	{

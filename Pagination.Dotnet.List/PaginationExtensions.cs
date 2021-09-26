@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Dotnet.List.Pagination
+namespace Pagination.Dotnet.List
 {
 	public static class PaginationExtensions
 	{
