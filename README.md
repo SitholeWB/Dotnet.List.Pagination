@@ -1,6 +1,7 @@
 # Dotnet.List.Pagination
 
 This is a library for List Pagination on Dotnet.
+Works well with **Entity Framework** as an extension.
 
 # Get Started
 
@@ -42,6 +43,17 @@ Install-Package Pagination.Dotnet.List
 
 ```C#
 
+		// Use only Pagination Model
+  		public async Task<Pagination<Country>> GetCountriesAsync(int page, int limit)
+		{
+			var list  = await _dbContext.Countries.Skip((page - 1) * limit).Take(limit).ToListAsync();
+			var totalItems  = await _dbContext.Countries.CountAsync();
+
+			return new Pagination<Country>(list, totalItems, page, limit);
+		}
+		
+		// OR use as Entity Framework extension
+		
 		private async Task<Pagination<Country>> GetAllCountriesAsync(int page, int limit)
 		{
 			using (var context = new CollegeDbContext())
@@ -50,7 +62,7 @@ Install-Package Pagination.Dotnet.List
 			}
 		}
     
-    //OR add filter before pagination
+		//OR add filter before pagination
     
     		private async Task<Pagination<Country>> GetAllCountriesAsync(int page, int limit)
 		{
@@ -60,7 +72,7 @@ Install-Package Pagination.Dotnet.List
 			}
 		}
     
-    //OR with supported filter
+		//OR with supported filter
     
     		private async Task<Pagination<Country>> GetAllCountriesAsync(int page, int limit, string searchText)
 		{
