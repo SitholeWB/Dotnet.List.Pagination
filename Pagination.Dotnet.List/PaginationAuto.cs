@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Pagination.Dotnet.List
 {
-	public class PaginationCustom<Tsource, Tdestination>
+	public class PaginationAuto<Tsource, Tdestination>
 	{
-		public PaginationCustom(IEnumerable<Tsource> results, long totalItems, Func<Tsource, Tdestination> convertTsourceToTdestinationMethod, int page = 1, int limit = 10)
+		public PaginationAuto(IEnumerable<Tsource> results, long totalItems, Func<Tsource, Tdestination> convertTsourceToTdestinationMethod, int page = 1, int limit = 10)
 		{
 			var startIndex = (page - 1) * limit;
 			var endIndex = page * limit;

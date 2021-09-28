@@ -36,7 +36,7 @@ namespace Pagination.Dotnet.List
 			return new Pagination<TSource>(results, totalItems, page, limit);
 		}
 
-		public static async Task<PaginationCustom<TSource, Tdestination>> AsPaginationAsync<TSource, Tdestination>(this IQueryable<TSource> source, int page, int limit, Func<TSource, Tdestination> convertTsourceToTdestinationMethod, string sortColumn = null, bool orderByDescending = false)
+		public static async Task<PaginationAuto<TSource, Tdestination>> AsPaginationAsync<TSource, Tdestination>(this IQueryable<TSource> source, int page, int limit, Func<TSource, Tdestination> convertTsourceToTdestinationMethod, string sortColumn = null, bool orderByDescending = false)
 		{
 			var totalItems = await source.CountAsync();
 			if (!string.IsNullOrEmpty(sortColumn))
@@ -45,10 +45,10 @@ namespace Pagination.Dotnet.List
 			}
 			var results = source.Skip((page - 1) * limit).Take(limit);
 
-			return new PaginationCustom<TSource, Tdestination>(await results.ToListAsync(), totalItems, convertTsourceToTdestinationMethod, page, limit);
+			return new PaginationAuto<TSource, Tdestination>(await results.ToListAsync(), totalItems, convertTsourceToTdestinationMethod, page, limit);
 		}
 
-		public static async Task<PaginationCustom<TSource, Tdestination>> AsPaginationAsync<TSource, Tdestination>(this DbSet<TSource> source, int page, int limit, Expression<Func<TSource, bool>> expression, Func<TSource, Tdestination> convertTsourceToTdestinationMethod, string sortColumn = null, bool orderByDescending = false) where TSource : class
+		public static async Task<PaginationAuto<TSource, Tdestination>> AsPaginationAsync<TSource, Tdestination>(this DbSet<TSource> source, int page, int limit, Expression<Func<TSource, bool>> expression, Func<TSource, Tdestination> convertTsourceToTdestinationMethod, string sortColumn = null, bool orderByDescending = false) where TSource : class
 		{
 			var totalItems = await source.Where(expression).CountAsync();
 			var results = Enumerable.Empty<TSource>();
@@ -60,7 +60,7 @@ namespace Pagination.Dotnet.List
 			{
 				results = await source.Where(expression).Skip((page - 1) * limit).Take(limit).ToListAsync();
 			}
-			return new PaginationCustom<TSource, Tdestination>(results, totalItems, convertTsourceToTdestinationMethod, page, limit);
+			return new PaginationAuto<TSource, Tdestination>(results, totalItems, convertTsourceToTdestinationMethod, page, limit);
 		}
 	}
 }
