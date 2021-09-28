@@ -1,1 +1,76 @@
 # Dotnet.List.Pagination
+
+This is a library for List Pagination on Dotnet.
+
+# Get Started
+
+```nuget
+Install-Package Pagination.Dotnet.List
+```
+
+### Sample output on Web API:
+
+```JSON
+{
+  "totalItems": 5,
+  "currentPage": 2,
+  "nextPage": 3,
+  "previousPage": 1,
+  "pages": [
+    1,
+    2,
+    3
+  ],
+  "results": [
+    {
+      "name": "Mali",
+      "id": "0ae45b80-9269-4fa7-86b3-e6b294cba322",
+      "dateAdded": "2021-09-26T15:31:14.936849+02:00",
+      "lastModifiedDate": "2021-09-26T15:31:14.936849+02:00"
+    },
+    {
+      "name": "South Africa",
+      "id": "0ae45b80-9269-4fa7-86b3-e6b494cba13e",
+      "dateAdded": "2021-03-15T21:02:03.8421801+00:00",
+      "lastModifiedDate": "2021-03-15T21:02:03.8422383+00:00"
+    }
+  ]
+}
+```
+
+### How to use:
+
+```C#
+
+		private async Task<Pagination<Country>> GetAllCountriesAsync(int page, int limit)
+		{
+			using (var context = new CollegeDbContext())
+			{
+				return await _dbContext.Countries.AsPaginationAsync(page, limit, sortColumn: "Name", orderByDescending: true);
+			}
+		}
+    
+    //OR add filter before pagination
+    
+    		private async Task<Pagination<Country>> GetAllCountriesAsync(int page, int limit)
+		{
+			using (var context = new CollegeDbContext())
+			{
+				return await _dbContext.Countries.Where(x => x.DateAdded > DateTimeOffset.UtcNow.AddDays(-30)).AsPaginationAsync(page, limit, sortColumn: "Name", orderByDescending: true);
+			}
+		}
+    
+    //OR with supported filter
+    
+    		private async Task<Pagination<Country>> GetAllCountriesAsync(int page, int limit, string searchText)
+		{
+			using (var context = new CollegeDbContext())
+			{
+				return await _dbContext.Countries.AsPaginationAsync(page, limit, x => x.Name.Contains(searchText), sortColumn: "Name", orderByDescending: true);
+			}
+		}
+    
+    
+```
+# NuGet
+https://www.nuget.org/packages/Pagination.Dotnet.List/
