@@ -4,6 +4,24 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>This is a library for List Pagination on Dotnet. 
+Works well with Entity Framework as an extension and supports asynchronous calls
+
+</Description>
+    <Copyright>https://raw.githubusercontent.com/SitholeWB/Pagination.Dotnet.List/master/LICENSE</Copyright>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <FileVersion>2.1.0.0</FileVersion>
+    <NeutralLanguage>en-ZA</NeutralLanguage>
+    <Version>2.1.0</Version>
+    <RepositoryUrl>https://github.com/SitholeWB/Pagination.Dotnet.List</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>paginated;pagination</PackageTags>
+    <PackageProjectUrl>https://github.com/SitholeWB/Pagination.Dotnet.List</PackageProjectUrl>
+    <PackageReleaseNotes>This is a library for List Pagination on Dotnet. 
+Works well with Entity Framework as an extension and supports asynchronous calls
+More example of project URL https://github.com/SitholeWB/Pagination.Dotnet.List
+</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

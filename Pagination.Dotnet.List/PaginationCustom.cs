@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Pagination.Dotnet.List
 {
-	public class Pagination<T>
+	public class PaginationCustom<Tsource, Tdestination>
 	{
-		public Pagination(IEnumerable<T> results, long totalItems, int page = 1, int limit = 10)
+		public PaginationCustom(IEnumerable<Tsource> results, long totalItems, Func<Tsource, Tdestination> convertTsourceToTdestinationMethod, int page = 1, int limit = 10)
 		{
 			var startIndex = (page - 1) * limit;
 			var endIndex = page * limit;
@@ -14,7 +14,7 @@ namespace Pagination.Dotnet.List
 
 			TotalItems = totalItems;
 			CurrentPage = page;
-			Results = results ?? Enumerable.Empty<T>();
+			Results = results?.Select(a => convertTsourceToTdestinationMethod(a)) ?? Enumerable.Empty<Tdestination>();
 
 			if (startIndex > 0)
 			{
@@ -33,6 +33,6 @@ namespace Pagination.Dotnet.List
 		public int? NextPage { get; private set; }
 		public int? PreviousPage { get; private set; }
 		public IEnumerable<int> Pages { get; private set; }
-		public IEnumerable<T> Results { get; private set; }
+		public IEnumerable<Tdestination> Results { get; private set; }
 	}
 }
