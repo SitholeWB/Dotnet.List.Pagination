@@ -1,4 +1,4 @@
-# Dotnet.List.Pagination
+# Pagination.Dotnet.List
 
 This is a library for List Pagination on Dotnet.
 Works well with **Entity Framework** as an extension.
