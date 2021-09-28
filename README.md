@@ -84,5 +84,63 @@ Install-Package Pagination.Dotnet.List
     
     
 ```
+
+## Auto Mapping or Converting Models:
+
+```C#
+    		//Create a method that will map/convert source model to destination model.
+		private CountryViewModel ConverCountryToCountryViewModel(Country country)
+		{
+			return new CountryViewModel
+			{
+				name = user.Name,
+				Id = user.Id
+			};
+		}
+		
+		// Use only Pagination Model
+  		public async Task<PaginationCustom<CountryViewModel>> GetCountriesAsync(int page, int limit)
+		{
+			var list  = await _dbContext.Countries.Skip((page - 1) * limit).Take(limit).ToListAsync();
+			var totalItems  = await _dbContext.Countries.CountAsync();
+  			//Pass 'ConverCountryToCountryViewModel' method that will map/convert source model to destination model 
+			return new PaginationCustom<CountryViewModel>(list, totalItems, ConverCountryToCountryViewModel, page, limit);
+		}
+		
+		// OR use as Entity Framework extension
+		
+		private async Task<PaginationCustom<CountryViewModel>> GetAllCountriesAsync(int page, int limit)
+		{
+			using (var context = new CollegeDbContext())
+			{
+				//Pass 'ConverCountryToCountryViewModel' method that will map/convert source model to destination model 
+				return await _dbContext.Countries.AsPaginationAsync(page, limit, ConverCountryToCountryViewModel, sortColumn: "Name", orderByDescending: true);
+			}
+		}
+    
+		//OR add filter before pagination
+    
+    		private async Task<PaginationCustom<CountryViewModel>> GetAllCountriesAsync(int page, int limit)
+		{
+			using (var context = new CollegeDbContext())
+			{
+				//Pass 'ConverCountryToCountryViewModel' method that will map/convert source model to destination model 
+				return await _dbContext.Countries.Where(x => x.DateAdded > DateTimeOffset.UtcNow.AddDays(-30)).AsPaginationAsync(page, limit, ConverCountryToCountryViewModel, sortColumn: "Name", orderByDescending: true);
+			}
+		}
+    
+		//OR with supported filter
+    
+    		private async Task<PaginationCustom<CountryViewModel>> GetAllCountriesAsync(int page, int limit, string searchText)
+		{
+			using (var context = new CollegeDbContext())
+			{
+				//Pass 'ConverCountryToCountryViewModel' method that will map/convert source model to destination model 
+				return await _dbContext.Countries.AsPaginationAsync(page, limit, x => x.Name.Contains(searchText), ConverCountryToCountryViewModel, sortColumn: "Name", orderByDescending: true);
+			}
+		}
+		
+```
+
 # NuGet
 https://www.nuget.org/packages/Pagination.Dotnet.List/
