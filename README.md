@@ -99,17 +99,17 @@ Install-Package Pagination.Dotnet.List
 		}
 		
 		// Use only Pagination Model
-  		public async Task<PaginationCustom<CountryViewModel>> GetCountriesAsync(int page, int limit)
+  		public async Task<PaginationAuto<CountryViewModel>> GetCountriesAsync(int page, int limit)
 		{
 			var list  = await _dbContext.Countries.Skip((page - 1) * limit).Take(limit).ToListAsync();
 			var totalItems  = await _dbContext.Countries.CountAsync();
   			//Pass 'ConverCountryToCountryViewModel' method that will map/convert source model to destination model 
-			return new PaginationCustom<CountryViewModel>(list, totalItems, ConverCountryToCountryViewModel, page, limit);
+			return new PaginationAuto<CountryViewModel>(list, totalItems, ConverCountryToCountryViewModel, page, limit);
 		}
 		
 		// OR use as Entity Framework extension
 		
-		private async Task<PaginationCustom<CountryViewModel>> GetAllCountriesAsync(int page, int limit)
+		private async Task<PaginationAuto<CountryViewModel>> GetAllCountriesAsync(int page, int limit)
 		{
 			using (var context = new CollegeDbContext())
 			{
@@ -120,7 +120,7 @@ Install-Package Pagination.Dotnet.List
     
 		//OR add filter before pagination
     
-    		private async Task<PaginationCustom<CountryViewModel>> GetAllCountriesAsync(int page, int limit)
+    		private async Task<PaginationAuto<CountryViewModel>> GetAllCountriesAsync(int page, int limit)
 		{
 			using (var context = new CollegeDbContext())
 			{
@@ -131,7 +131,7 @@ Install-Package Pagination.Dotnet.List
     
 		//OR with supported filter
     
-    		private async Task<PaginationCustom<CountryViewModel>> GetAllCountriesAsync(int page, int limit, string searchText)
+    		private async Task<PaginationAuto<CountryViewModel>> GetAllCountriesAsync(int page, int limit, string searchText)
 		{
 			using (var context = new CollegeDbContext())
 			{
