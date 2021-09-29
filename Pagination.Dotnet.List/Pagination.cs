@@ -8,6 +8,15 @@ namespace Pagination.Dotnet.List
 	{
 		public Pagination(IEnumerable<T> results, long totalItems, int page = 1, int limit = 10)
 		{
+			if (limit <= 0)
+			{
+				throw new PaginationException("Limit must be greater than 0");
+			}
+			if (page <= 0)
+			{
+				throw new PaginationException("Page must be greater than 0");
+			}
+
 			var startIndex = (page - 1) * limit;
 			var endIndex = page * limit;
 			var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)limit);
